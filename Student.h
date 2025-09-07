@@ -14,14 +14,15 @@ class Student {
     CoursesList* courses;
     
     public:
+    Student(int id, std::string name, std::string lastName, std::string career, std::string entryDate);
     int getId();
     std::string getName();
     std::string getLastName();
     std::string getCareer();
     std::string getEntryDate();
     CoursesList* getCourses();
-    
 
+    ~Student();
 
 
 };
