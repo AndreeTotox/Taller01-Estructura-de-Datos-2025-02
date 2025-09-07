@@ -12,7 +12,7 @@ class NodeStudent {
     NodeStudent(Student& data);
     Student& getValue();
 
-    void setValue(Student data);
+    void setValue(Student& data);
 
     NodeStudent* getNext();
 
