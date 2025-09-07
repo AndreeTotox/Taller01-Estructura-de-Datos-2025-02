@@ -1,18 +1,18 @@
 #pragma once
+#include "Node.h"
 #include "Student.h"
 #include "Course.h"
 
 class StudentList {
 
     private:
-    Student* head;
+    NodeStudent* head;
 
     public:
     StudentList();
-    Student* getHead();
-    void addStudent(Student* head);
-    bool removeById(int id);
-    bool removeByName(std::string name);
+    NodeStudent* getHead();
+    void addStudent(Student* student);
+    bool remove(int id);
     bool isEmpty();
 
     ~StudentList();
@@ -28,7 +28,7 @@ class CoursesList {
     CoursesList();
     Course* getHead();
     void addCourse(Course* head);
-    bool removeById(int id);
+    bool remove(int id);
     bool isEmpty();
 
 

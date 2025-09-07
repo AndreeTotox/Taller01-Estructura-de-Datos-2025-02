@@ -6,13 +6,13 @@
 class NodeStudent {
 
     private:
-    Student value;
+    Student* value;
     NodeStudent* next;
 
     public:
 
-    NodeStudent(Student& data);
-    Student& getValue();
+    NodeStudent(Student* data);
+    Student* getValue();
 
     void setValue(Student& data);
 
@@ -48,5 +48,10 @@ class NodeCourse {
         //This is a destructor too
     }
 
+
+};
+
+
+class NodeSigned {
 
 };
