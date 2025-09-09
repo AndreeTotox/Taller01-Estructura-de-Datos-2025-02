@@ -16,6 +16,7 @@ class Course {
 
     public:
     Course(int id, std::string name, int maxStudents, std::string career, std::string teacher);
+    std::string getName();
 
     ~Course();
 

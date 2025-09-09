@@ -30,13 +30,13 @@ class NodeStudent {
 class NodeCourse {
 
     private:
-    Course value;
+    Course* value;
     NodeCourse* next;
 
     public:
 
     NodeCourse(Course& data);
-    Course& getValue();
+    Course* getValue();
 
     void setValue(Course& data);
 

@@ -12,6 +12,8 @@ class StudentList {
     StudentList();
     NodeStudent* getHead();
     void addStudent(Student* student);
+    void search(std::string name);
+    void search(int id);
     bool remove(int id);
     bool isEmpty();
 
@@ -22,12 +24,12 @@ class StudentList {
 class CoursesList {
 
     private:
-    Course* head;
+    NodeCourse* head;
 
     public:
     CoursesList();
-    Course* getHead();
-    void addCourse(Course* head);
+    NodeCourse* getHead();
+    bool addCourse(Course* head);
     bool remove(int id);
     bool isEmpty();
 
