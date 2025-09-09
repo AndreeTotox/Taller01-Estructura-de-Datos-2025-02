@@ -21,6 +21,10 @@ class Student {
     std::string getCareer();
     std::string getEntryDate();
     CoursesList* getCourses();
+    void addCourse(Course* course);
+    void removeCourse(int id);
+    void show();
+    void showCourses();
 
     ~Student();
 
