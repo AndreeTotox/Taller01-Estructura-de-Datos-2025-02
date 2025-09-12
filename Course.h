@@ -9,7 +9,8 @@ class Course {
     int id;
     std::string name;
     int maxStudents;
-    bool avaiable;
+    int signedStudents;
+    bool available;
     std::string career;
     std::string teacher;
 
@@ -19,13 +20,14 @@ class Course {
     int getId();
     std::string getName();
     int getMaxStudents();
-    void setMaxStudents();
-    bool isAvaiable();
-    void setAvaiable(bool status);
+    int getSigned();
+    bool addSigned();
+    bool removeSigned();
+    bool isAvailable();
+    void setAvailable(bool status);
     std::string getCareer();
     std::string getTeacher();
-    void setTeacher(std::string teacher);
-
+    void show();
 
     ~Course();
 
