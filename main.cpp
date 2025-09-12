@@ -59,12 +59,12 @@ int main() {
         {
         case 1:
             std::cout << "MANEJO DE ALUMNOS" << std::endl;
-            studentManagement(input, choice, students);
+            studentManagement(input, choice, students, enrolls);
             break;
 
         case 2:
             std::cout << "MANEJO DE CURSOS" << std::endl;
-            courseManagement(input, choice, courses);
+            courseManagement(input, choice, courses, enrolls);
             break;
 
         case 3:
@@ -100,7 +100,7 @@ int main() {
     return 0;
 }
 
-void studentManagement(std::string input, int choice, StudentList* students) {
+void studentManagement(std::string input, int choice, StudentList* students, EnrollmentList* enrolls) {
     std::cout << "----------------------" << std::endl;
     std::cout << "1-. Crear alumno" << std::endl;
     std::cout << "2-. Buscar alumno por ID" << std::endl;
@@ -184,7 +184,7 @@ void studentManagement(std::string input, int choice, StudentList* students) {
             std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
             return;
         }
-        if (students->remove(id)){
+        if (students->remove(id, enrolls)){
             std::cout << "El alumno a sido removido exitosamente!" << std::endl;
         } else {
             std::cout << "No se pudo remover al alumno debido a que el ID entregado no es valido o no existe" << std::endl;
@@ -202,7 +202,7 @@ void studentManagement(std::string input, int choice, StudentList* students) {
 
 }
 
-void courseManagement(std::string input, int choice, CoursesList* courses) {
+void courseManagement(std::string input, int choice, CoursesList* courses, EnrollmentList* enrolls) {
     std::cout << "----------------------" << std::endl;
     std::cout << "1-. Crear curso" << std::endl;
     std::cout << "2-. Buscar curso por ID" << std::endl;
@@ -289,7 +289,7 @@ void courseManagement(std::string input, int choice, CoursesList* courses) {
             std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
             return;
         }
-        if (courses->remove(id)){
+        if (courses->remove(id, enrolls)){
             std::cout << "El curso a sido removido exitosamente!" << std::endl;
         } else {
             std::cout << "No se pudo remover el curso debido a que el ID entregado no es valido o no existe" << std::endl;
@@ -298,7 +298,8 @@ void courseManagement(std::string input, int choice, CoursesList* courses) {
     }
 
     
-    default:std::cout << "Regresando..." << std::endl;
+    default:
+        std::cout << "Regresando..." << std::endl;
         return;
     }
 
@@ -355,9 +356,12 @@ void registering(std::string input, int choice, StudentList* students, CoursesLi
             std::cout << "ID INVALIDO! Regresando..." << std::endl;
             return;
         }
+        if (s->getCareer() != c->getCareer()) {
+            std::cout << "ERROR! ALUMNO Y CURSO NO SON COMPATIBLES! DIFERENTES CARRERAS!" << std::endl;
+            return;
+        }
 
-        NodeSigned* n = new NodeSigned(s, c);
-        enrolls->addEnroll(n);
+        enrolls->addEnroll(s,c);
         std::cout << "Proceso finalizado" << std::endl;
         return;
     }
