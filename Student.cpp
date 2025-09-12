@@ -11,7 +11,6 @@ Student::Student(int id, std::string name, std::string lastName, std::string car
     this->lastName = lastName;
     this->career = career;
     this->entryDate = entryDate;
-    this->courses = new EnrollmentList();
 }
 
 int Student::getId() {
@@ -34,41 +33,14 @@ std::string Student::getEntryDate() {
     return this->entryDate;
 }
 
-EnrollmentList* Student::getCourses() {
-    return this->courses;
+
+
+
+void Student::showInfo() {
+    std::cout << "ID: " << id << ", Nombre: " << name << std::endl;
 }
 
-void Student::addCourse(Course* course) {
-    this->courses->addCourse(course);
-}
-
-void Student::removeCourse(int id) {
-    if (this->courses->remove(id)) {
-        std::cout << "Successfully removed course!" << std::endl;
-    } else {
-        std::cout << "Could Not Remove Course" << std::endl;
-    }
-}
-
-void Student::showCourses() {
-
-    NodeSigned* cursor = courses->getHead();
-    std::cout << "Cursos Inscritos: " << std::endl;
-    if (courses->isEmpty()) {
-        std::cout << "No hay cursos inscritas";
-    } else {
-        while (cursor != nullptr) {
-            Course* aux = cursor->getValue();
-            std::cout << "-" << aux->getName() << std::endl;
-
-            cursor = cursor->getNext();
-        }
-    
-    }
-    std::cout << std::endl;
-}
-
-void Student::show() {
+void Student::showAll() {
     std::cout << "ID: " << this->id << ", Nombre: " << this->name << ", Apellido: " << this->lastName << ", Carrera: " << this->career << ", Fecha de Ingreso: " << this->entryDate << std::endl;
     showCourses();
     std::cout << "-----------------" << std::endl;
@@ -77,5 +49,5 @@ void Student::show() {
 
 
 Student::~Student() {
-    delete courses;
+
 }

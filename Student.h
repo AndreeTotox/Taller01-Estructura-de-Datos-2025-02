@@ -11,7 +11,6 @@ class Student {
     std::string lastName;
     std::string career;
     std::string entryDate;
-    EnrollmentList* courses;
     
     public:
     Student(int id, std::string name, std::string lastName, std::string career, std::string entryDate);
@@ -20,10 +19,10 @@ class Student {
     std::string getLastName();
     std::string getCareer();
     std::string getEntryDate();
-    EnrollmentList* getCourses();
     void addCourse(Course* course);
     void removeCourse(int id);
-    void show();
+    void showAll();
+    void showInfo();
     void showCourses();
 
     ~Student();
