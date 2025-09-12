@@ -34,16 +34,13 @@ std::string Student::getEntryDate() {
 }
 
 
-
-
 void Student::showInfo() {
     std::cout << "ID: " << id << ", Nombre: " << name << std::endl;
 }
 
 void Student::showAll() {
     std::cout << "ID: " << this->id << ", Nombre: " << this->name << ", Apellido: " << this->lastName << ", Carrera: " << this->career << ", Fecha de Ingreso: " << this->entryDate << std::endl;
-    showCourses();
-    std::cout << "-----------------" << std::endl;
+    std::cout << "-----------------------------" << std::endl;
 
 }
 
