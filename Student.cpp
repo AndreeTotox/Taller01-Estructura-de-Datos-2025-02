@@ -1,3 +1,4 @@
+#include "Student.h"
 #include "LinkedList.h"
 #include "Course.h"
 #include "Node.h"
@@ -10,7 +11,7 @@ Student::Student(int id, std::string name, std::string lastName, std::string car
     this->lastName = lastName;
     this->career = career;
     this->entryDate = entryDate;
-    this->courses = new CoursesList();
+    this->courses = new EnrollmentList();
 }
 
 int Student::getId() {
@@ -33,7 +34,7 @@ std::string Student::getEntryDate() {
     return this->entryDate;
 }
 
-CoursesList* Student::getCourses() {
+EnrollmentList* Student::getCourses() {
     return this->courses;
 }
 
@@ -51,10 +52,10 @@ void Student::removeCourse(int id) {
 
 void Student::showCourses() {
 
-    NodeCourse* cursor = courses->getHead();
-    std::cout << "Carreras Inscritas: " << std::endl;
+    NodeSigned* cursor = courses->getHead();
+    std::cout << "Cursos Inscritos: " << std::endl;
     if (this->courses->isEmpty()) {
-        std::cout << "No hay carreras inscritas";
+        std::cout << "No hay cursos inscritas";
     } else {
         while (cursor != nullptr) {
             Course* aux = cursor->getValue();
@@ -70,6 +71,11 @@ void Student::showCourses() {
 void Student::show() {
     std::cout << "ID: " << this->id << ", Nombre: " << this->name << ", Apellido: " << this->lastName << ", Carrera: " << this->career << ", Fecha de Ingreso: " << this->entryDate << std::endl;
     this->showCourses();
+    std::cout << "-----------------" << std::endl;
 
 }
 
+
+Student::~Student() {
+    delete courses;
+}
