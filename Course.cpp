@@ -68,3 +68,7 @@ void Course::show() {
     std::cout << "ID: " << id << ", Nombre: " << name << ", Estudiantes inscritos: " << signedStudents << " / " << maxStudents << ", Carrera: " << career << ", Profesor: " << teacher << std::endl;
 }
 
+Course::~Course() {
+    
+}
+
