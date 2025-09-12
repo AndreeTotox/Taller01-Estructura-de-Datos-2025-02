@@ -34,6 +34,7 @@ int main() {
 
     StudentList* students = new StudentList();
     CoursesList* courses = new CoursesList();
+    EnrollmentList* enrolls = new EnrollmentList();
 
     while (menu) {
         std::cout << "--MENU PRINCIPAL--" << std::endl;
@@ -57,16 +58,18 @@ int main() {
         switch (choice)
         {
         case 1:
-            std::cout << "MANEJO DE ALUMNOS\n" << std::endl;
+            std::cout << "MANEJO DE ALUMNOS" << std::endl;
             studentManagement(input, choice, students);
             break;
 
         case 2:
-            std::cout << "MANEJO DE CURSOS\n";
+            std::cout << "MANEJO DE CURSOS" << std::endl;
+            courseManagement(input, choice, courses);
             break;
 
         case 3:
-            std::cout << "MANEJO DE INSCRIPCIONES\n";
+            std::cout << "MANEJO DE INSCRIPCIONES" << std::endl;
+            registering(input, choice, students, courses, enrolls);
             break;
 
         case 4:
@@ -88,6 +91,8 @@ int main() {
         }
     }
 
+
+    delete enrolls;
     delete courses;
     delete students;
 
@@ -126,6 +131,10 @@ void studentManagement(std::string input, int choice, StudentList* students) {
             std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
             return;
         }
+        if (students->verifyId(id)) {
+            std::cout << "ERROR: El id que trata de ingresar ya existe en el sistema" << std::endl;
+            return;
+        }
         std::string name = askForData("Ingrese el nombre del alumno a agregar: ");
         std::string lastName = askForData("Ingrese el apellido del alumno a agregar: ");
         std::string career = askForData("Ingrese la carrera del alumno a agregar: ");
@@ -136,7 +145,8 @@ void studentManagement(std::string input, int choice, StudentList* students) {
 
         Student* s = new Student(id, name, lastName, career, entryDate);
         students->addStudent(s);
-        break;
+        std::cout << "Alumno agregado exitosamente" << std::endl;
+        return;
     }
 
     case 2: {
@@ -152,14 +162,14 @@ void studentManagement(std::string input, int choice, StudentList* students) {
             return;
         }
         students->search(id);
-        break;
+        return;
 
     }
 
     case 3: {
         std::string name = askForData("Ingrese el nombre del alumno a buscar: ");
         students->search(name);
-        break;
+        return;
     }
 
     case 4: {
@@ -179,7 +189,7 @@ void studentManagement(std::string input, int choice, StudentList* students) {
         } else {
             std::cout << "No se pudo remover al alumno debido a que el ID entregado no es valido o no existe" << std::endl;
         }
-        break;
+        return;
 
     }
     
@@ -197,7 +207,7 @@ void courseManagement(std::string input, int choice, CoursesList* courses) {
     std::cout << "1-. Crear curso" << std::endl;
     std::cout << "2-. Buscar curso por ID" << std::endl;
     std::cout << "3-. Buscar curso por nombre" << std::endl;
-    std::cout << "4-. Eliminar alumno" << std::endl;
+    std::cout << "4-. Eliminar Curso" << std::endl;
     std::cout << "Indique su eleccion con el numero correspondiente" << std::endl;
     std::cout << "Cualquier caso fuera de lugar lo llevara al menu principal: ";
     std::getline(std::cin, input);
@@ -212,13 +222,191 @@ void courseManagement(std::string input, int choice, CoursesList* courses) {
 
     switch (choice)
     {
-    case 1:
-        break;
-    
-    default:
-        break;
+    case 1: {
+        int id;
+        std::cout << "Ingrese el ID del curso a agregar: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)){
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        if (courses->verifyId(id)) {
+            std::cout << "ERROR: El id que trata de ingresar ya existe en el sistema" << std::endl;
+            return;
+        }
+        std::string name = askForData("Ingrese el nombre del curso a agregar: ");
+        int maxStudents;
+        std::cout << "Ingrese el numero maximo de estudiantes que se pueden registrar al curso: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)){
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO!! Regresando..." << std::endl;
+        }
+        std::string career = askForData("Ingrese la carrera del alumno a agregar: ");
+        std::string teacher = askForData("Ingrese el profesor que dicta la asignatura: ");
+
+        Course* c = new Course(id, name, maxStudents, career, teacher);
+        courses->addCourse(c);
+        std::cout << "Curso agregado exitosamente" << std::endl;
+        return;
     }
 
+    case 2: {
+        int id;
 
+        std::cout << "Ingrese el ID del curso a buscar: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)){
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        courses->search(id);
+        return;
+    }
+
+    case 3: {
+        std::string name = askForData("Ingrese el nombre completo del curso a buscar: ");
+        courses->search(name);
+        return;
+    }
+
+    case 4: {
+        int id;
+        std::cout << "Ingrese el ID del curso a eliminar: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)){
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        if (courses->remove(id)){
+            std::cout << "El curso a sido removido exitosamente!" << std::endl;
+        } else {
+            std::cout << "No se pudo remover el curso debido a que el ID entregado no es valido o no existe" << std::endl;
+        }
+        return;
+    }
+
+    
+    default:std::cout << "Regresando..." << std::endl;
+        return;
+    }
+
+}
+
+void registering(std::string input, int choice, StudentList* students, CoursesList* courses, EnrollmentList* enrolls) {
+    std::cout << "------------------------" << std::endl;
+    std::cout << "1-. Inscribir a un alumno a un curso" << std::endl;
+    std::cout << "2-. Eliminar a un alumno de un curso" << std::endl;
+    std::cout << "Ingrese su opcion con el numero correspondiente" << std::endl;
+    std::cout << "(Cualquier parametro fuera de lugar lo devolvera al menu principal): ";
+    std::getline(std::cin, input);
+    std::cout << "\n";
+
+    if (isNumber(input)) {
+        choice = stoi(input);
+    } else {
+        std::cout << "ERROR DE FORMATO! Regresando..." << std::endl;
+        return;
+    }
+
+    switch (choice)
+    {
+    case 1: {
+        int id;
+        students->showInfo();
+        std::cout << "Ingrese el ID del alumno para inscripcion: " << std::endl;
+        getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)) {
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        Student* s = students->getStudent(id);
+        if (s == nullptr) {
+            std::cout << "ID INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+
+        courses->showInfo();
+        std::cout << "Ingrese el ID del curso a inscribir: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)) {
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        Course* c = courses->getCourse(id);
+        if (s == nullptr) {
+            std::cout << "ID INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+
+        NodeSigned* n = new NodeSigned(s, c);
+        enrolls->addEnroll(n);
+        std::cout << "Proceso finalizado" << std::endl;
+        return;
+    }
+
+    case 2: {
+        int id;
+        students->showInfo();
+        std::cout << "Ingrese el ID del alumno: " << std::endl;
+        getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)) {
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        Student* s = students->getStudent(id);
+        if (s == nullptr) {
+            std::cout << "ID INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+
+        courses->showInfo();
+        std::cout << "Ingrese el ID del curso a renunciar: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)) {
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        Course* c = courses->getCourse(id);
+        if (s == nullptr) {
+            std::cout << "ID INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+
+        if (enrolls->remove(s->getId(), c->getId())) {
+            std::cout << "Alumno removido exitosamente" << std::endl;
+            return;
+        } else {
+            std::cout << "Algo salio mal" << std::endl;
+        }
+    }
+    
+    default:
+        std::cout << "Regresando..." << std::endl;
+        return;
+    }
 
 }
