@@ -24,7 +24,6 @@ class Course {
     bool addSigned();
     bool removeSigned();
     bool isAvailable();
-    void setAvailable(bool status);
     std::string getCareer();
     std::string getTeacher();
     void show();
