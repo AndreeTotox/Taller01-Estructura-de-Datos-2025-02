@@ -54,7 +54,7 @@ void Student::showCourses() {
 
     NodeSigned* cursor = courses->getHead();
     std::cout << "Cursos Inscritos: " << std::endl;
-    if (this->courses->isEmpty()) {
+    if (courses->isEmpty()) {
         std::cout << "No hay cursos inscritas";
     } else {
         while (cursor != nullptr) {
@@ -70,7 +70,7 @@ void Student::showCourses() {
 
 void Student::show() {
     std::cout << "ID: " << this->id << ", Nombre: " << this->name << ", Apellido: " << this->lastName << ", Carrera: " << this->career << ", Fecha de Ingreso: " << this->entryDate << std::endl;
-    this->showCourses();
+    showCourses();
     std::cout << "-----------------" << std::endl;
 
 }
