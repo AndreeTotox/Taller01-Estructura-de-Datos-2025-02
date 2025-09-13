@@ -27,78 +27,6 @@ std::string askForData(std::string output) {
     return value;
 }
 
-int main() {
-    bool menu = true;
-    std::string input;
-    int choice;
-
-    StudentList* students = new StudentList();
-    CoursesList* courses = new CoursesList();
-    EnrollmentList* enrolls = new EnrollmentList();
-
-    while (menu) {
-        std::cout << "--MENU PRINCIPAL--" << std::endl;
-        std::cout << "1-. Gestion de alumnos" << std::endl;
-        std::cout << "2-. Gestion de cursos" << std::endl;
-        std::cout << "3-. Inscripciones" << std::endl;
-        std::cout << "4-. Notas" << std::endl;
-        std::cout << "5-. Reportes y Consulta" << std::endl;
-        std::cout << "Seleccione su opcion con el numero correspondiente";
-        std::getline(std::cin, input);
-        std::cout << "\n";
-
-        if(isNumber(input)) {
-            choice = stoi(input);
-        } else {
-            std::cout << "Entrada invalida, ingrese un valor correspondiente." << std::endl;
-            continue;
-        }
-
-
-        switch (choice)
-        {
-        case 1:
-            std::cout << "MANEJO DE ALUMNOS" << std::endl;
-            studentManagement(input, choice, students, enrolls);
-            break;
-
-        case 2:
-            std::cout << "MANEJO DE CURSOS" << std::endl;
-            courseManagement(input, choice, courses, enrolls);
-            break;
-
-        case 3:
-            std::cout << "MANEJO DE INSCRIPCIONES" << std::endl;
-            registering(input, choice, students, courses, enrolls);
-            break;
-
-        case 4:
-            std::cout << "MANEJO DE NOTAS\n";
-            break;
-
-        case 5:
-            std::cout << "REPORTES Y CONSULTA\n";
-            break;
-
-        case 6:
-            std::cout << "Saliendo del programa...";
-            menu = false;
-            break;
-        
-        default:
-        std::cout << "Ingrese un numero que este dentro de los parametros";
-            break;
-        }
-    }
-
-
-    delete enrolls;
-    delete courses;
-    delete students;
-
-
-    return 0;
-}
 
 void studentManagement(std::string input, int choice, StudentList* students, EnrollmentList* enrolls) {
     std::cout << "----------------------" << std::endl;
@@ -406,6 +334,7 @@ void registering(std::string input, int choice, StudentList* students, CoursesLi
         } else {
             std::cout << "Algo salio mal" << std::endl;
         }
+        return;
     }
     
     default:
@@ -413,4 +342,229 @@ void registering(std::string input, int choice, StudentList* students, CoursesLi
         return;
     }
 
+}
+
+void gradeSystem(std::string input, int choice, EnrollmentList* enrolls) {
+    int idS;
+    int idC;
+    std::cout << "Ingrese el ID del alumno a ingresar nota: ";
+    std::getline(std::cin, input);
+    std::cout << std::endl;
+    if(isNumber(input)) {
+        idS = stoi(input);
+    } else {
+        std::cout << "FORMATO INVALIDO! Regresando...";
+        return;
+    }
+    std::cout << "Ingrese el ID del curso: ";
+    std::getline(std::cin, input);
+    std::cout << std::endl;
+    if(isNumber(input)) {
+        idS = stoi(input);
+    } else {
+        std::cout << "FORMATO INVALIDO! Regresando...";
+        return;
+    }
+
+    NodeSigned* n = enrolls->getData(idS, idC);
+
+    //forgor to use this
+    try {
+        double grades;
+        std::cout << "Ingrese el numero de notas que agregara: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        int iter = stoi(input);
+        for (int i = 0; i < iter; i++) {
+            std::cout << "Ingrese el numero de notas que agregara: ";
+            std::getline(std::cin, input);
+            std::cout << "\n";
+            double grades = std::stod(input);
+            n->getGrades()->addGrade(grades);
+        }
+
+    } catch (const std::invalid_argument& e) {
+        std::cout << "ERROR! FORMATO INVALIDO!" << std::endl;
+        return;
+    }
+    return;
+
+}
+
+void reports(std::string input, int choice, StudentList* students, EnrollmentList* enrolls) {
+
+    std::cout << "-------------------------" << std::endl;
+    std::cout << "1-. Obtener todos los alumnos de una Carrera." << std::endl;
+    std::cout << "2-. Obtener todos los cursos que un alumno esta inscrito" << std::endl;
+    std::cout << "3-. Calcular el promedio de notas de un alumno (en un curso)" << std::endl;
+    std::cout << "4-. Calcular el promedio general (segun promedios finales)" << std::endl;
+    std::cout << "Ingrese su opcion indicando el numero correspondiente" << std::endl;
+    std::cout << "(Cualquier parametro fuera de lugar lo llevara de vuelta al menu principal): ";
+    std::getline(std::cin, input);
+    std::cout << "\n";
+    if (isNumber(input)){
+        choice = stoi(input);
+    } else {
+        std::cout << "ERROR! FORMATO INVALIDO! Regresando..." << std::endl;
+        return;
+    }
+    
+    switch (choice)
+    {
+    case 1: {
+        std::string name = askForData("Ingrese el nombre de la carrera: ");
+        students->showCareerInfo(name);
+        return;
+
+    }
+
+    case 2: {
+        int id;
+        std::cout << "Ingrese el ID del alumno a consultar: " << std::endl;
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)) {
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        enrolls->showStudentInfo(id);
+        return;
+    }
+
+    case 3: {
+        int idS;
+        int idC;
+        std::cout << "Ingrese el ID del alumno a consultar: " << std::endl;
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)) {
+            idS = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        enrolls->showStudentInfo(idS);
+        std::cout << "Ingrese el ID del curso para sacar promedio: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)) {
+            idC = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        double average = enrolls->getGradeAverage(idS, idC);
+        if (average == 0.0) {
+            std::cout << "El curso seleccionado no tiene registrado notas del alumno." << std::endl;
+            return;
+        } else {
+            std::cout << "El promedio del alumno en el curso seleccionado es de: " << average << std::endl;
+        }
+        return;
+    }
+
+    case 4: {
+        int id;
+        std::cout << "Ingrese el ID del alumno a consultar: " << std::endl;
+        std::getline(std::cin, input);
+        std::cout << "\n";
+        if (isNumber(input)) {
+            id = stoi(input);
+        } else {
+            std::cout << "FORMATO INVALIDO! Regresando..." << std::endl;
+            return;
+        }
+        double average = enrolls->getGradeAll(id);
+        if (average == 0.0) {
+            std::cout << "No hay cursos registrados con este alumno.";
+        } else {
+            std::cout << "El promedio general del alumno es de " << average << std::endl;
+        }
+        return;
+    }
+    
+    default:
+        std::cout << "Regresando..." << std::endl;
+        return;
+    }
+
+}
+
+
+int main() {
+    bool menu = true;
+    std::string input;
+    int choice;
+
+    StudentList* students = new StudentList();
+    CoursesList* courses = new CoursesList();
+    EnrollmentList* enrolls = new EnrollmentList();
+
+    while (menu) {
+        std::cout << "--MENU PRINCIPAL--" << std::endl;
+        std::cout << "1-. Gestion de alumnos" << std::endl;
+        std::cout << "2-. Gestion de cursos" << std::endl;
+        std::cout << "3-. Inscripciones" << std::endl;
+        std::cout << "4-. Notas" << std::endl;
+        std::cout << "5-. Reportes y Consulta" << std::endl;
+        std::cout << "6-. Salir del programa" << std::endl;
+        std::cout << "Seleccione su opcion con el numero correspondiente: ";
+        std::getline(std::cin, input);
+        std::cout << "\n";
+
+        if(isNumber(input)) {
+            choice = stoi(input);
+        } else {
+            std::cout << "Entrada invalida, ingrese un valor correspondiente." << std::endl;
+            continue;
+        }
+
+
+        switch (choice)
+        {
+        case 1:
+            std::cout << "MANEJO DE ALUMNOS" << std::endl;
+            studentManagement(input, choice, students, enrolls);
+            break;
+
+        case 2:
+            std::cout << "MANEJO DE CURSOS" << std::endl;
+            courseManagement(input, choice, courses, enrolls);
+            break;
+
+        case 3:
+            std::cout << "MANEJO DE INSCRIPCIONES" << std::endl;
+            registering(input, choice, students, courses, enrolls);
+            break;
+
+        case 4:
+            std::cout << "MANEJO DE NOTAS" << std::endl;
+            gradeSystem(input, choice, enrolls);
+            break;
+
+        case 5:
+            std::cout << "REPORTES Y CONSULTA" << std::endl;
+            reports(input, choice, students, enrolls);
+            break;
+
+        case 6:
+            std::cout << "Saliendo del programa..." << std::endl;
+            menu = false;
+            break;
+        
+        default:
+            std::cout << "Ingrese un numero que este dentro de los parametros" << std::endl;
+            break;
+        }
+    }
+
+
+    delete enrolls;
+    delete courses;
+    delete students;
+
+
+    return 0;
 }
