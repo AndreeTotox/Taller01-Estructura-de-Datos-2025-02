@@ -76,6 +76,11 @@ void NodeSigned::setNext(NodeSigned* next) {
     this->next = next;
 }
 
+GradesList* NodeSigned::getGrades() {
+    return grades;
+}
+
+
 NodeSigned::~NodeSigned() {
     delete grades;
 }
