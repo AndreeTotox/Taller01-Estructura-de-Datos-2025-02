@@ -3,6 +3,11 @@
 #include <string>
 #include "LinkedList.h"
 
+class GradesList;
+class CoursesList;
+class StudentList;
+class EnrollmentList;
+
 class Course {
 
     private:
