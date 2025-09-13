@@ -134,6 +134,17 @@ void StudentList::showInfo() {
     }
 }
 
+void StudentList::showCareerInfo(std::string career) {
+    NodeStudent* cursor = head;
+
+    while (cursor != nullptr) {
+        if (cursor->getValue()->getCareer() == career) {
+            cursor->getValue()->showAll();
+        }
+        cursor = cursor->getNext();
+    }
+}
+
 StudentList::~StudentList() {
     NodeStudent* current = head;
     while (current != nullptr) {
@@ -409,6 +420,55 @@ bool EnrollmentList::isEmpty() {
     return false;
 }
 
+void EnrollmentList::showStudentInfo(int id) {
+    NodeSigned* cursor = head;
+    while (cursor != nullptr) {
+        if (cursor->getStudent()->getId() == id) {
+            cursor->getCourse()->show();
+        }
+        cursor->getNext();
+    }
+}
+
+double EnrollmentList::getGradeAverage(int idS, int idC) {
+    NodeSigned* cursor = head;
+    while (cursor != nullptr) {
+        if (cursor->getStudent()->getId() == idS && cursor->getCourse()->getId() == idC) {
+            return cursor->getGrades()->getAverage();
+        }
+        cursor->getNext();
+    }
+
+}
+
+double EnrollmentList::getGradeAll(int id) {
+    double counter = 0;
+    double sum = 0;
+    NodeSigned* cursor = head;
+    while (cursor != nullptr) {
+        if (cursor->getStudent()->getId() == id) {
+            counter++;
+            sum += cursor->getGrades()->getAverage();
+        }
+        cursor->getNext();
+    }
+    if (counter == 0) {
+        return 0.0;
+    } else return (sum/counter);
+
+}
+
+NodeSigned* EnrollmentList::getData(int idS, int idC) {
+    NodeSigned* cursor = head;
+    while (cursor != nullptr) {
+        if (cursor->getStudent()->getId() == idS && cursor->getCourse()->getId() == idC) {
+            return cursor;
+        }
+        cursor = cursor->getNext();
+    }
+
+}
+
 EnrollmentList::~EnrollmentList() {
     NodeSigned* current = head;
     while (current != nullptr) {
@@ -418,5 +478,59 @@ EnrollmentList::~EnrollmentList() {
     }
 
     head = nullptr;
+
+}
+
+GradesList::GradesList() {
+    head = nullptr;
+}
+
+int GradesList::size() {
+    int counter;
+    NodeGrades* cursor = head;
+
+    while (cursor != nullptr) {
+        counter++;
+        cursor = cursor->getNext();
+    }
+
+    return counter;
+}
+
+void GradesList::addGrade(double grade) {
+    NodeGrades* newGrade = new NodeGrades(grade);
+    NodeGrades* cursor = head;
+    while (cursor->getNext() != nullptr) {
+        cursor = cursor->getNext();
+    }
+
+    cursor->setNext(newGrade);
+
+}
+
+double GradesList::getAverage() {
+    if (head == nullptr) {
+        return 0.0;
+    }
+    double sum = 0;
+
+    NodeGrades* cursor = head;
+    while (cursor != nullptr) {
+        sum += cursor->getValue();
+        cursor = cursor->getNext();
+    }
+
+    return (sum/size());
+}
+
+bool GradesList::isEmpty() {
+    if (head == nullptr) {
+        return true;
+    }
+
+    return false;
+}
+
+GradesList::~GradesList() {
 
 }

@@ -3,6 +3,17 @@
 #include "Student.h"
 #include "Course.h"
 
+class CourseList;
+class StudentList;
+class EnrollmentList;
+class GradesList;
+class NodeCourse;
+class NodeStudent;
+class NodeGrades;
+class NodeSigned;
+class Course;
+class Student;
+
 class StudentList {
 
     private:
@@ -18,6 +29,7 @@ class StudentList {
     bool verifyId(int id);
     Student* getStudent(int id);
     void showInfo();
+    void showCareerInfo(std::string career);
     bool isEmpty();
 
     ~StudentList();
@@ -58,6 +70,10 @@ class EnrollmentList {
     bool remove(int idS, int idC);
     void removeStudent(int id);
     void removeCourse(int id);
+    NodeSigned* getData(int idS, int idC);
+    void showStudentInfo(int id);
+    double getGradeAverage(int idS, int idC);
+    double getGradeAll(int id);
     bool isEmpty();
 
     ~EnrollmentList();
@@ -71,6 +87,9 @@ class GradesList {
     public:
     GradesList();
     int size();
+    void addGrade(double grade);
+    double getAverage();
+    bool isEmpty();
 
     ~GradesList();
 
