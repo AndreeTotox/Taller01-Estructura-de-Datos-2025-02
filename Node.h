@@ -3,6 +3,13 @@
 #include "Student.h"
 #include "LinkedList.h"
 
+class GradesList;
+class CoursesList;
+class StudentList;
+class EnrollmentList;
+class Course;
+class Student;
+
 
 class NodeStudent {
 
@@ -85,7 +92,6 @@ class NodeSigned {
     NodeSigned* getNext();
     void setNext(NodeSigned* next);
     GradesList* getGrades();
-    void addGrade(double grade);
 
     ~NodeSigned();
 
